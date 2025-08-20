@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Character 🎨 ! </title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <!-- ADDED: html2canvas for snapshot -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    
+<body>
+    <h1>Create Your Character 🎨!</h1>
+    <div id="characters-container"></div>
+
+    <script>
+    // دالة حفظ JSON عند اختيار الشخصية
+    function chooseCharacter(path) {
+        const data = { path: path };
+        const jsonData = JSON.stringify(data);
+        const blob = new Blob([jsonData], {type: "application/json"});
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "selected_character.json";
+        link.click();
+        alert("Character selected! Now press Save in the app.");
+    }
+
+    // قائمة الشخصيات المتاحة
+    const characters = ["char1.png", "char2.png", "char3.png", "char4.png"];
+
+    const container = document.getElementById("characters-container");
+
+    characters.forEach(char => {
+        const div = document.createElement("div");
+        div.style.display = "inline-block";
+        div.style.margin = "10px";
+        div.style.textAlign = "center";
+
+        const img = document.createElement("img");
+        img.src = char;
+        img.width = 100;
+
+        const btn = document.createElement("button");
+        btn.innerText = "Select";
+        btn.style.display = "block";
+        btn.style.marginTop = "5px";
+        btn.onclick = () => chooseCharacter(char);
+
+        div.appendChild(img);
+        div.appendChild(btn);
+        container.appendChild(div);
+    });
+    </script>
+</body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #cdc0f2 0%, #9874de 30%, #8756d1 60%, #533082 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Floating decorations */
+        .decoration {
+            position: absolute;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .decoration:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .decoration:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+        .decoration:nth-child(3) { bottom: 20%; left: 8%; animation-delay: 4s; }
+        .decoration:nth-child(4) { bottom: 30%; right: 5%; animation-delay: 1s; }
+        .decoration:nth-child(5) { top: 60%; left: 3%; animation-delay: 3s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 30px;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: clamp(24px, 4vw, 36px);
+            color: #533082;
+            text-shadow: 2px 2px 0px #cdc0f2, 2px 2px 0px #40246c;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            color: #f6f5fd;
+            font-weight: 700;
+        }
+        
+        /* Character Preview */
+        .character-preview {
+            flex: 1;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px;
+            margin-top: 100px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .preview-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 28px;
+            color: #533082;
+            text-shadow: 2px 2px 0px #cdc0f2, 2px 2px 0px #40246c;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 0px #fff;
+        }
+        
+        .character-display {
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .character {
+            width: 200px;
+            height: 300px;
+            position: relative;
+            transform-origin: center;
+            animation: characterBounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes characterBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Character parts */
+        .character-head {
+            width: 80px;
+            height: 80px;
+            background: #FDBCB4;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 60px;
+            border: 3px solid #333;
+            z-index: 10;
+        }
+        
+        .character-eyes {
+            position: absolute;
+            top: 25px;
+            left: 15px;
+            width: 50px;
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .eye {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #333;
+            position: relative;
+        }
+        
+        .eye::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+        }
+        
+        .character-hair {
+            position: absolute;
+            top: 10px;
+            left: 55px;
+            width: 90px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 45px 45px 0 0;
+            border: 3px solid #333;
+            z-index: 5;
+        }
+        
+        /* Improved T-shirt body */
+        .character-body {
+            width: 70px;
+            height: 95px;
+            background: #4ECDC4;
+            position: absolute;
+            top: 95px;
+            left: 65px;
+            border-radius: 10px 10px 0 0;
+            border: 3px solid #333;
+            z-index: 15;
+        }
+        
+        /* T-shirt collar - more realistic */
+        .character-collar {
+            position: absolute;
+            width: 25px;
+            height: 12px;
+            background: transparent;
+            border: 3px solid #333;
+            border-radius: 12px 12px 0 0;
+            top: 95px;
+            left: 87px;
+            z-index: 16;
+            border-bottom: none;
+        }
+        
+        /* Left sleeve - hidden/removed */
+        .left-sleeve {
+            display: none;
+        }
+        
+        /* Right sleeve - hidden/removed */
+        .right-sleeve {
+            display: none;
+        }
+        
+        /* Left arm - better positioning and connection */
+        .left-arm {
+            position: absolute;
+            width: 16px;
+            height: 50px;
+            background: #FDBCB4;
+            border: 3px solid #333;
+            border-radius: 8px;
+            top: 115px;
+            left: 40px;
+            z-index: 13;
+            transform: rotate(-10deg);
+            transform-origin: top;
+        }
+        
+        /* Left hand */
+        .left-hand {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #FDBCB4;
+            border: 2px solid #333;
+            border-radius: 50%;
+            top: 160px;
+            left: 32px;
+            z-index: 12;
+        }
+        
+        /* Right arm - better positioning and connection */
+        .right-arm {
+            position: absolute;
+            width: 16px;
+            height: 50px;
+            background: #FDBCB4;
+            border: 3px solid #333;
+            border-radius: 8px;
+            top: 115px;
+            right: 40px;
+            z-index: 13;
+            transform: rotate(10deg);
+            transform-origin: top;
+        }
+        
+        /* Right hand */
+        .right-hand {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #FDBCB4;
+            border: 2px solid #333;
+            border-radius: 50%;
+            top: 160px;
+            right: 32px;
+            z-index: 12;
+        }
+        
+        /* Character legs - realistic pants */
+        .character-legs {
+            position: absolute;
+            top: 185px;
+            left: 60px;
+            width: 80px;
+            height: 90px;
+        }
+        
+        .leg {
+            position: absolute;
+            width: 30px;
+            height: 85px;
+            background: #40246c;
+            border: 3px solid #333;
+            border-radius: 15px 15px 8px 8px;
+            top: 0;
+        }
+        
+        .leg.left {
+            left: 10px;
+        }
+        
+        .leg.right {
+            right: 10px;
+        }
+        
+        /* Pants waist */
+        .pants-waist {
+            position: absolute;
+            width: 70px;
+            height: 20px;
+            background: #FF6B6B;
+            border: 3px solid #333;
+            border-radius: 8px 8px 0 0;
+            top: 185px;
+            left: 65px;
+            z-index: 9;
+        }
+        
+        /* Pants belt */
+        .pants-belt {
+            position: absolute;
+            width: 70px;
+            height: 8px;
+            background: #8B4513;
+            border: 2px solid #333;
+            border-radius: 4px;
+            top: 190px;
+            left: 65px;
+            z-index: 10;
+        }
+        
+        .pants-belt::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #FFD700;
+            border: 2px solid #333;
+            border-radius: 2px;
+            top: -2px;
+            left: 31px;
+        }
+        
+        /* Character feet */
+        .character-feet {
+            position: absolute;
+            top: 265px;
+            left: 60px;
+            width: 80px;
+            height: 25px;
+        }
+        
+        .foot {
+            position: absolute;
+            width: 35px;
+            height: 20px;
+            background: #8B4513;
+            border: 3px solid #333;
+            border-radius: 15px 15px 5px 5px;
+            bottom: 0;
+        }
+        
+        .foot.left {
+            left: 5px;
+        }
+        
+        .foot.right {
+            right: 5px;
+        }
+        
+        /* Customization Panel */
+        .customization-panel {
+            flex: 1;
+            margin-top: 100px;
+            max-width: 600px;
+        }
+        
+        .customization-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 22px;
+            color: #40246c;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 0px #cdc0f2;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            justify-items: center;
+        }
+        
+        .option-button {
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .option-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: rgba(78, 205, 196, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .option-button.selected {
+            border-color: rgba(255, 107, 107, 0.8);
+            background: rgba(255, 182, 193, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .option-button.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #FF6B6B;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        /* Color options */
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .color-option.selected {
+            transform: scale(1.3);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            font-family: 'Fredoka One', cursive;
+            font-size: 18px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #FFE066, #FF6B6B);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .action-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+            
+            .character-preview {
+                width: 100%;
+                max-width: 500px;
+            }
+            
+            .customization-panel {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .option-button {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Decorations -->
+    <div class="decoration">🎨</div>
+    <div class="decoration">⭐</div>
+    <div class="decoration">🎪</div>
+    <div class="decoration">🎈</div>
+    <div class="decoration">🌈</div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Create Your Amazing Character! 🎨</h1>
+        <p>Mix and match to make your perfect avatar!</p>
+    </div>
+
+    <div class="container">
+        <!-- Character Preview -->
+        <div class="character-preview">
+            <h2 class="preview-title">Your Character ✨</h2>
+            <!-- ADDED: id to snapshot area -->
+            <div class="character-display" id="characterDisplay">
+                <div class="character" id="character">
+                    <div class="character-hair" id="hair"></div>
+                    <div class="character-head" id="head">
+                        <div class="character-eyes" id="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Improved T-shirt and arms structure -->
+                    <div class="character-body" id="body"></div>
+                    <div class="character-collar" id="collar"></div>
+                    
+                    <div class="left-sleeve" id="leftSleeve"></div>
+                    <div class="right-sleeve" id="rightSleeve"></div>
+                    
+                    <div class="left-arm" id="leftArm"></div>
+                    <div class="right-arm" id="rightArm"></div>
+                    <div class="left-hand" id="leftHand"></div>
+                    <div class="right-hand" id="rightHand"></div>
+                    
+                    <div class="pants-waist" id="pantsWaist"></div>
+                    <div class="pants-belt"></div>
+                    <div class="character-legs">
+                        <div class="leg left" id="leftLeg"></div>
+                        <div class="leg right" id="rightLeg"></div>
+                    </div>
+                    <div class="character-feet">
+                        <div class="foot left"></div>
+                        <div class="foot right"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn btn-secondary" onclick="randomizeCharacter()">🎲 Random</button>
+                <button class="action-btn btn-primary" onclick="saveCharacter()">💾 Save Character</button>
+            </div>
+        </div>
+
+        <!-- Customization Panel -->
+        <div class="customization-panel">
+            <!-- Eyes Section -->
+            <div class="customization-section">
+                <h3 class="section-title">👁️ Choose Eyes</h3>
+                <div class="options-grid">
+                    <div class="option-button selected" onclick="selectEyes('round')">👀</div>
+                    <div class="option-button" onclick="selectEyes('wink')">😉</div>
+                    <div class="option-button" onclick="selectEyes('happy')">😊</div>
+                    <div class="option-button" onclick="selectEyes('star')">🤩</div>
+                </div>
+            </div>
+
+            <!-- Hair Section -->
+            <div class="customization-section">
+                <h3 class="section-title">💇‍♂️ Choose Hair Style</h3>
+                <div class="options-grid">
+                    <div class="option-button selected" onclick="selectHair('short')">👦</div>
+                    <div class="option-button" onclick="selectHair('long')">👧</div>
+                    <div class="option-button" onclick="selectHair('curly')">👨‍🦱</div>
+                    <div class="option-button" onclick="selectHair('spiky')">🦔</div>
+                </div>
+            </div>
+
+            <!-- Hair Color Section -->
+            <div class="customization-section">
+                <h3 class="section-title">🎨 Hair Color</h3>
+                <div class="options-grid">
+                    <div class="color-option selected" style="background: #8B4513;" onclick="selectHairColor('#8B4513')"></div>
+                    <div class="color-option" style="background: #FFD700;" onclick="selectHairColor('#FFD700')"></div>
+                    <div class="color-option" style="background: #000;" onclick="selectHairColor('#000')"></div>
+                    <div class="color-option" style="background: #FF6347;" onclick="selectHairColor('#FF6347')"></div>
+                    <div class="color-option" style="background: #9932CC;" onclick="selectHairColor('#9932CC')"></div>
+                    <div class="color-option" style="background: #32CD32;" onclick="selectHairColor('#32CD32')"></div>
+                </div>
+            </div>
+
+            <!-- Body Type Section -->
+            <div class="customization-section">
+                <h3 class="section-title">🧍‍♂️ Body Type</h3>
+                <div class="options-grid">
+                    <div class="option-button" onclick="selectBodyType('slim')">🪶</div>
+                    <div class="option-button selected" onclick="selectBodyType('average')">🧍‍♂️</div>
+                    <div class="option-button" onclick="selectBodyType('chubby')">🐻</div>
+                </div>
+            </div>
+
+            <!-- Shirt Color Section -->
+            <div class="customization-section">
+                <h3 class="section-title">👕 T-Shirt Color</h3>
+                <div class="options-grid">
+                    <div class="color-option selected" style="background: #0228e7;" onclick="selectShirtColor('#0228e7')"></div>
+                    <div class="color-option" style="background: #473f17;" onclick="selectPantsColor('#4ECDC4')"></div>
+                    <div class="color-option" style="background: #45B7D1;" onclick="selectPantsColor('#45B7D1')"></div>
+                    <div class="color-option" style="background: #96CEB4;" onclick="selectPantsColor('#96CEB4')"></div>
+                    <div class="color-option" style="background: #FFEAA7;" onclick="selectPantsColor('#FFEAA7')"></div>
+                    <div class="color-option" style="background: #DDA0DD;" onclick="selectPantsColor('#DDA0DD')"></div>
+                </div>
+            </div>
+
+            <!-- Pants Color Section -->
+            <div class="customization-section">
+                <h3 class="section-title">👖 Pants Color</h3>
+                <div class="options-grid">
+                    <div class="color-option selected" style="background: #ebc2c2;" onclick="selectPantsColor('#FF6B6B')"></div>
+                    <div class="color-option" style="background: #473f17;" onclick="selectPantsColor('#4ECDC4')"></div>
+                    <div class="color-option" style="background: #45B7D1;" onclick="selectPantsColor('#45B7D1')"></div>
+                    <div class="color-option" style="background: #96CEB4;" onclick="selectPantsColor('#96CEB4')"></div>
+                    <div class="color-option" style="background: #FFEAA7;" onclick="selectPantsColor('#FFEAA7')"></div>
+                    <div class="color-option" style="background: #DDA0DD;" onclick="selectPantsColor('#DDA0DD')"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character customization state
+        let characterState = {
+            eyes: 'round',
+            hair: 'short',
+            hairColor: '#8B4513',
+            bodyType: 'average',
+            shirtColor: '#4ECDC4',
+            pantsColor: '#FF6B6B'
+        };
+
+        // Selection functions
+        function selectOption(section, value, element) {
+            // Remove selected class from all options in this section
+            const sectionElement = element.closest('.customization-section');
+            sectionElement.querySelectorAll('.option-button, .color-option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked element
+            element.classList.add('selected');
+            
+            // Update character state
+            characterState[section] = value;
+            updateCharacter();
+        }
+
+        function selectEyes(type) {
+            const element = event.target;
+            selectOption('eyes', type, element);
+        }
+
+        function selectHair(type) {
+            const element = event.target;
+            selectOption('hair', type, element);
+        }
+
+        function selectHairColor(color) {
+            const element = event.target;
+            selectOption('hairColor', color, element);
+        }
+
+        function selectBodyType(type) {
+            const element = event.target;
+            selectOption('bodyType', type, element);
+        }
+
+        function selectShirtColor(color) {
+            const element = event.target;
+            selectOption('shirtColor', color, element);
+        }
+
+        function selectPantsColor(color) {
+            const element = event.target;
+            selectOption('pantsColor', color, element);
+        }
+
+        // Update character appearance
+        function updateCharacter() {
+            const character = document.getElementById('character');
+            const hair = document.getElementById('hair');
+            const eyes = document.getElementById('eyes');
+            const body = document.getElementById('body');
+            const leftSleeve = document.getElementById('leftSleeve');
+            const rightSleeve = document.getElementById('rightSleeve');
+            const leftArm = document.getElementById('leftArm');
+            const rightArm = document.getElementById('rightArm');
+            const leftHand = document.getElementById('leftHand');
+            const rightHand = document.getElementById('rightHand');
+            const collar = document.getElementById('collar');
+            const pantsWaist = document.getElementById('pantsWaist');
+            const leftLeg = document.getElementById('leftLeg');
+            const rightLeg = document.getElementById('rightLeg');
+
+            // Update hair color
+            hair.style.background = characterState.hairColor;
+
+            // Update hair style
+            switch(characterState.hair) {
+                case 'short':
+                    hair.style.borderRadius = '45px 45px 0 0';
+                    hair.style.height = '40px';
+                    break;
+                case 'long':
+                    hair.style.borderRadius = '45px 45px 20px 20px';
+                    hair.style.height = '60px';
+                    break;
+                case 'curly':
+                    hair.style.borderRadius = '50% 50% 40% 40%';
+                    hair.style.height = '50px';
+                    break;
+                case 'spiky':
+                    hair.style.borderRadius = '20px 20px 0 0';
+                    hair.style.height = '35px';
+                    break;
+            }
+
+            // Update eyes
+            switch(characterState.eyes) {
+                case 'round':
+                    eyes.innerHTML = '<div class="eye"></div><div class="eye"></div>';
+                    break;
+                case 'wink':
+                    eyes.innerHTML = '<div class="eye"></div><div style="width: 18px; height: 3px; background: #333; margin-top: 8px; border-radius: 5px;"></div>';
+                    break;
+                case 'happy':
+                    eyes.innerHTML = '<div style="width: 18px; height: 10px; border-bottom: 3px solid #333; border-radius: 0 0 18px 18px;"></div><div style="width: 18px; height: 10px; border-bottom: 3px solid #333; border-radius: 0 0 18px 18px;"></div>';
+                    break;
+                case 'star':
+                    eyes.innerHTML = '<div style="font-size: 18px;">⭐</div><div style="font-size: 18px;">⭐</div>';
+                    break;
+            }
+
+            // Update body type with improved positioning
+            switch(characterState.bodyType) {
+                case 'slim':
+                    body.style.width = '60px';
+                    body.style.left = '70px';
+                    collar.style.left = '92px';
+                    leftArm.style.left = '45px';
+                    rightArm.style.right = '45px';
+                    leftHand.style.left = '31px';
+                    rightHand.style.right = '31px';
+                    pantsWaist.style.width = '60px';
+                    pantsWaist.style.left = '70px';
+                    leftLeg.style.left = '15px';
+                    rightLeg.style.right = '15px';
+                    break;
+                case 'average':
+                    body.style.width = '70px';
+                    body.style.left = '65px';
+                    collar.style.left = '87px';
+                    leftArm.style.left = '40px';
+                    rightArm.style.right = '40px';
+                    leftHand.style.left = '26px';
+                    rightHand.style.right = '26px';
+                    pantsWaist.style.width = '70px';
+                    pantsWaist.style.left = '65px';
+                    leftLeg.style.left = '10px';
+                    rightLeg.style.right = '10px';
+                    break;
+                case 'chubby':
+                    body.style.width = '80px';
+                    body.style.left = '60px';
+                    collar.style.left = '82px';
+                    leftArm.style.left = '35px';
+                    rightArm.style.right = '35px';
+                    leftHand.style.left = '21px';
+                    rightHand.style.right = '21px';
+                    pantsWaist.style.width = '80px';
+                    pantsWaist.style.left = '60px';
+                    leftLeg.style.left = '5px';
+                    rightLeg.style.right = '5px';
+                    break;
+            }
+
+            // Update t-shirt color (body and collar only)
+            body.style.background = characterState.shirtColor;
+            collar.style.borderColor = characterState.shirtColor;
+
+            // Update pants color
+            pantsWaist.style.background = characterState.pantsColor;
+            leftLeg.style.background = characterState.pantsColor;
+            rightLeg.style.background = characterState.pantsColor;
+        }
+
+        // Random character generator
+        function randomizeCharacter() {
+            const eyeTypes = ['round', 'wink', 'happy', 'star'];
+            const hairTypes = ['short', 'long', 'curly', 'spiky'];
+            const hairColors = ['#8B4513', '#FFD700', '#000', '#FF6347', '#9932CC', '#32CD32'];
+            const bodyTypes = ['slim', 'average', 'chubby'];
+            const shirtColors = ['#4ECDC4', '#FF6B6B', '#95E1D3', '#F38BA8', '#A8E6CF', '#FFD93D'];
+            const pantsColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+
+            characterState = {
+                eyes: eyeTypes[Math.floor(Math.random() * eyeTypes.length)],
+                hair: hairTypes[Math.floor(Math.random() * hairTypes.length)],
+                hairColor: hairColors[Math.floor(Math.random() * hairColors.length)],
+                bodyType: bodyTypes[Math.floor(Math.random() * bodyTypes.length)],
+                shirtColor: shirtColors[Math.floor(Math.random() * shirtColors.length)],
+                pantsColor: pantsColors[Math.floor(Math.random() * pantsColors.length)]
+            };
+
+            updateCharacter();
+            updateSelectedOptions();
+        }
+
+        // Update selected options in UI
+        function updateSelectedOptions() {
+            // Clear all selections
+            document.querySelectorAll('.option-button, .color-option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            // Find and select the correct options based on character state
+            const sections = document.querySelectorAll('.customization-section');
+            
+            sections.forEach(section => {
+                const title = section.querySelector('.section-title').textContent;
+                
+                if (title.includes('Hair Color')) {
+                    const colorOptions = section.querySelectorAll('.color-option');
+                    colorOptions.forEach(option => {
+                        if (option.style.background.includes(characterState.hairColor.replace('#', ''))) {
+                            option.classList.add('selected');
+                        }
+                    });
+                } else if (title.includes('T-Shirt Color')) {
+                    const colorOptions = section.querySelectorAll('.color-option');
+                    colorOptions.forEach(option => {
+                        if (option.style.background.includes(characterState.shirtColor.replace('#', ''))) {
+                            option.classList.add('selected');
+                        }
+                    });
+                } else if (title.includes('Pants Color')) {
+                    const colorOptions = section.querySelectorAll('.color-option');
+                    colorOptions.forEach(option => {
+                        if (option.style.background.includes(characterState.pantsColor.replace('#', ''))) {
+                            option.classList.add('selected');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Save character (الأصلية ـ لن تُحذف ولكن سيُعاد تعريفها لاحقًا)
+        function saveCharacter() {
+            alert('🎉 Your amazing character has been saved!\n\nYou can now use this character in your games. Great job creating such a cool avatar! 🌟');
+        }
+
+        // Initialize character
+        updateCharacter();
+    </script>
+
+    <!-- ADDED: Redefine saveCharacter to export PNG + JSON and close tab -->
+    <script>
+      window.saveCharacter = function () {
+        const target = document.getElementById('characterDisplay');
+        if (!target) {
+          alert('لم يتم العثور على منطقة المعاينة.');
+          return;
+        }
+        html2canvas(target, { backgroundColor: null, scale: 2 }).then(canvas => {
+          // 1) Download PNG
+          canvas.toBlob(function (blob) {
+            const pngUrl = URL.createObjectURL(blob);
+            const a1 = document.createElement('a');
+            a1.href = pngUrl;
+            a1.download = 'selected_character.png';
+            a1.click();
+
+            // 2) Download JSON pointing to the PNG (read by GUI)
+            const json = JSON.stringify({ path: 'selected_character.png' });
+            const jsonBlob = new Blob([json], { type: 'application/json' });
+            const jsonUrl = URL.createObjectURL(jsonBlob);
+            const a2 = document.createElement('a');
+            a2.href = jsonUrl;
+            a2.download = 'selected_character.json';
+            a2.click();
+
+            // 3) Notify and try to close the window
+            alert('🎉 تم حفظ شخصيتك!\n\nاحفظ الملفين داخل مجلد مشروعك (بجانب GUI.py) أو انقلهما يدويًا.');
+            setTimeout(() => {
+              try {
+                window.close();
+                if (!window.closed) { window.open('', '_self'); window.close(); }
+              } catch (e) {}
+            }, 300);
+          }, 'image/png');
+        });
+      };
+    </script>
+</body>
+</html>
