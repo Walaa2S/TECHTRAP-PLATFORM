@@ -63,3 +63,21 @@ The design prioritizes:
 - Equal access to smart educational tools
 
 We aim to empower every child through tech-driven fun and learning.
+
+---
+
+##📊 Smart Dashboard:
+
+Tracks the child’s movements and activity patterns.
+
+Highlights the most engaging games based on usage.
+
+Sends weekly detailed progress reports directly to parents.
+
+🌱 Skill Tree & Rewards System:
+
+Children earn points and unlock achievements as they play and improve.
+
+Points can be converted into real-life reward coupons.
+
+Coupons can be redeemed in toy shops or partnered stores across Bahrain.
