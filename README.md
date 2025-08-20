@@ -65,8 +65,9 @@ The design prioritizes:
 We aim to empower every child through tech-driven fun and learning.
 
 ---
+🔮 Future Updates for the TECHTRAP Platform
 
-##📊 Smart Dashboard:
+📊 Smart Dashboard:
 
 Tracks the child’s movements and activity patterns.
 
